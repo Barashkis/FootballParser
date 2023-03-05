@@ -142,17 +142,13 @@ def parse_transfermarkt(nation_name):
                 citizenship_1, citizenship_2 = citizenship_ids[:2]
 
                 image_url = soup.find("img", class_="data-header__profile-image").get("src").split("?")[0]
-            except:
-                continue
-            finally:
-                time.sleep(10)
-
-            try:
                 image = session.get(image_url, headers=transfermarkt_headers()).content
             except:
                 time.sleep(120)
 
                 continue
+            finally:
+                time.sleep(10)
 
             wp_user = db.select("wp_users", False, "ID", display_name=f"'{display_name}'",
                                 name_home=f"'{home_country_name}'")
