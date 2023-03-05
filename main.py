@@ -35,9 +35,7 @@ async def main():
             parse_transfermarkt(nation)
         else:
             parse_sofascore(nation)
-    except Exception as ex:
-        print(ex)
-
+    except Exception:
         toast("Во время работы программы произошла ошибка... Повторите попытку еще раз")
     else:
         toast("Работа завершена!")
