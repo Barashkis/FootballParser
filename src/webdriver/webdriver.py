@@ -1,7 +1,6 @@
 from faker import Faker
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
@@ -20,8 +19,6 @@ def get_driver():
     capa = DesiredCapabilities.CHROME
     capa["pageLoadStrategy"] = "none"
 
-    service = Service(executable_path='chromedriver.exe')
-
-    driver = webdriver.Chrome(options=options, service=service, desired_capabilities=capa)
+    driver = webdriver.Chrome(options=options, desired_capabilities=capa)
 
     return driver

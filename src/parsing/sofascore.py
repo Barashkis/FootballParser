@@ -47,10 +47,10 @@ def parse_sofascore(nation_name):
             driver.get(f"https://www.sofascore.com/tournament/football/{nation_name.lower()}/"
                        f"{sofascore_leagues_dict[db_league_sofascore_id]}/{db_league_sofascore_id}")
 
+            time.sleep(60)
+
             wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "sc-526d246a-8")))
             driver.execute_script("window.stop();")
-
-            time.sleep(30)
 
             soup = BeautifulSoup(driver.page_source, "lxml")
             club_tables = soup.find_all("div", {"class": ["sc-526d246a-8", "eEyhLI"]})
