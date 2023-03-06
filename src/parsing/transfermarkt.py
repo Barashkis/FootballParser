@@ -150,8 +150,9 @@ def parse_transfermarkt(nation_name):
             finally:
                 time.sleep(10)
 
-            wp_user = db.select("wp_users", False, "ID", display_name=f"'{display_name}'",
-                                name_home=f"'{home_country_name}'")
+            wp_user = db.select("wp_users", False, "ID", display_name=display_name,
+                                name_home=home_country_name, citizenship1_id=citizenship_1,
+                                citizenship2_id=citizenship_2, country_id=nation_id)
             if wp_user:
                 wp_user_id = wp_user["ID"]
 
