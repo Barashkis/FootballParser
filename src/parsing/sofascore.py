@@ -3,6 +3,10 @@ from pathlib import Path
 
 import requests
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 from bs4 import BeautifulSoup
 from pywebio.output import put_text
 
@@ -30,6 +34,7 @@ def parse_sofascore(nation_name):
     clubs = {}
     for db_league in db_leagues:
         driver = get_driver()
+        wait = WebDriverWait(driver, 30)
 
         db_league_sofascore_id = db_league["sofascore_id"]
         league_id = db_league["ID"]
@@ -41,6 +46,9 @@ def parse_sofascore(nation_name):
         try:
             driver.get(f"https://www.sofascore.com/tournament/football/{nation_name.lower()}/"
                        f"{sofascore_leagues_dict[db_league_sofascore_id]}/{db_league_sofascore_id}")
+
+            wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "sc-526d246a-8")))
+            driver.execute_script("window.stop();")
 
             time.sleep(30)
 
