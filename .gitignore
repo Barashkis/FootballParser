@@ -1,4 +1,5 @@
 .idea
+src/webdriver/chromedriver*
 src/img/
 src/webdriver/chromedriver.exe
 
