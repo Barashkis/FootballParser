@@ -167,6 +167,7 @@ def parse_transfermarkt(nation_name):
                     "name": "''",
                     "middlename": "''",
                     "surname": "''",
+                    "role1_id": 1,
                     "name_home": f"'{home_country_name}'",
                     "citizenship1_id": citizenship_1,
                     "citizenship2_id": citizenship_2,
