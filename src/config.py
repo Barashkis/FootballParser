@@ -50,7 +50,10 @@ def transfermarkt_headers():
 
 
 def upload_image(host_folder_path, local_image_path):
-    with pysftp.Connection(host=host, username=host_user, password=host_password) as sftp:
+    cnopts = pysftp.CnOpts()
+    cnopts.hostkeys = None
+
+    with pysftp.Connection(host=host, username=host_user, password=host_password, cnopts=cnopts) as sftp:
         sftp.cwd(host_folder_path)
         sftp.put(localpath=local_image_path)
 
