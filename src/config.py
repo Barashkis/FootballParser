@@ -1,5 +1,4 @@
 from os import getenv
-from pathlib import Path
 
 from dotenv import load_dotenv
 from faker import Faker
@@ -13,8 +12,8 @@ host = getenv("HOST")
 host_user = getenv("HOST_USER")
 host_password = getenv("HOST_PASSWORD")
 
-host_clubs_logo_folder = str(Path(*getenv("HOST_CLUBS_LOGO_FOLDER").split()))
-host_players_photo_folder = str(Path(*getenv("HOST_PLAYERS_PHOTO_FOLDER").split()))
+host_clubs_logo_folder = getenv("HOST_CLUBS_LOGO_FOLDER")
+host_players_photo_folder = getenv("HOST_PLAYERS_PHOTO_FOLDER")
 
 local_clubs_logo_folder = getenv("LOCAL_CLUBS_LOGO_FOLDER").split()
 local_players_photo_folder = getenv("LOCAL_PLAYERS_PHOTO_FOLDER").split()

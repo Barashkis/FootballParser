@@ -1,3 +1,4 @@
+import os
 import time
 
 from datetime import datetime
@@ -7,7 +8,7 @@ from bs4 import BeautifulSoup
 from requests import Session
 from pywebio.output import put_text
 
-from src.config import db, transfermarkt_headers, players_photo_folder
+from src.config import db, transfermarkt_headers, local_players_photo_folder, host_players_photo_folder, upload_image
 
 
 def convert_date(date_string):
@@ -230,6 +231,8 @@ def parse_transfermarkt(nation_name):
                     player_dict["strong_foot"] = f"'{foot}'"
                 db.insert("players", **player_dict)
 
-            image_path = str(Path(*players_photo_folder.split(), f"{wp_user_id}_1.png"))
-            with open(image_path, "wb") as file:
+            local_image_path = str(Path(*local_players_photo_folder, f"{wp_user_id}_1.png"))
+            with open(local_image_path, "wb") as file:
                 file.write(image)
+            upload_image(host_players_photo_folder, local_image_path)
+            os.remove(local_image_path)

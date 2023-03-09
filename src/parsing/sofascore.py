@@ -1,3 +1,4 @@
+import os
 import time
 from pathlib import Path
 
@@ -10,7 +11,7 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from pywebio.output import put_text
 
-from src.config import db, sofascore_headers, clubs_logo_folder
+from src.config import db, sofascore_headers, local_clubs_logo_folder, host_clubs_logo_folder, upload_image
 from src.webdriver import get_driver
 
 
@@ -203,8 +204,10 @@ def parse_sofascore(nation_name):
                 )
 
             club_id = db.select("clubs", False, "ID", name=club_name, league_id=league_id)["ID"]
-            image_path = str(Path(*clubs_logo_folder.split(), f"{club_id}.png"))
-            with open(image_path, "wb") as file:
+            local_image_path = str(Path(*local_clubs_logo_folder, f"{club_id}.png"))
+            with open(local_image_path, "wb") as file:
                 file.write(image)
+            upload_image(host_clubs_logo_folder, local_image_path)
+            os.remove(local_image_path)
 
             time.sleep(1)
