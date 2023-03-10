@@ -164,15 +164,15 @@ def parse_sofascore(nation_name):
             league_ids = clubs[club_sofascore_id]["league_ids"]
             league_id = league_ids[0][1]
 
-            club = db.select("clubs", False, name=club_name, league_id=league_id)
+            club = db.select("clubs", False, sofascore_id=club_sofascore_id)
             if club:
                 if len(league_ids) > 1:
-                    initial_db_league_data = db.select("organizations", False, "tier", "sofascore_id", sofascore_id=league_ids[0][0])
+                    initial_db_league_data = db.select("organizations", False, "tier", "ID", sofascore_id=league_ids[0][0])
 
                     min_tier = initial_db_league_data["tier"]
                     league_id = initial_db_league_data["ID"]
                     for league_ids_tuple in league_ids[1:]:
-                        db_league_data = db.select("organizations", False, "tier", "sofascore_id", sofascore_id=league_ids_tuple[0])
+                        db_league_data = db.select("organizations", False, "tier", "ID", sofascore_id=league_ids_tuple[0])
                         league_tier = db_league_data["tier"]
                         if league_tier < min_tier:
                             min_tier = league_tier
