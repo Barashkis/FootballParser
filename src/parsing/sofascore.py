@@ -48,7 +48,7 @@ def parse_sofascore(nation_name):
             driver.get(f"https://www.sofascore.com/tournament/football/{nation_name.lower()}/"
                        f"{sofascore_leagues_dict[db_league_sofascore_id]}/{db_league_sofascore_id}")
 
-            time.sleep(60)
+            time.sleep(90)
 
             wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "sc-526d246a-8")))
             driver.execute_script("window.stop();")
@@ -178,15 +178,11 @@ def parse_sofascore(nation_name):
                             min_tier = league_tier
                             league_id = db_league_data["ID"]
 
-                db_league_id = club["league_id"]
-                if db_league_id:
-                    if db_league_id != league_id:
-                        db.update("clubs", {"league_id": league_id}, {"name": club_name, "league_id": league_id})
-                else:
-                    db.update("clubs", {"league_id": league_id}, {"name": club_name, "league_id": league_id})
+                if club["league_id"] != league_id:
+                    db.update("clubs", {"league_id": league_id}, {"sofascore_id": club_sofascore_id})
 
                 if club["stadium_id"] != stadium_id:
-                    db.update("clubs", {"stadium_id": stadium_id}, {"name": club_name, "league_id": league_id})
+                    db.update("clubs", {"stadium_id": stadium_id}, {"sofascore_id": club_sofascore_id})
             else:
                 db.insert(
                     "clubs",
@@ -203,7 +199,7 @@ def parse_sofascore(nation_name):
                     sofascore_id=club_sofascore_id
                 )
 
-            club_id = db.select("clubs", False, "ID", name=club_name, league_id=league_id)["ID"]
+            club_id = db.select("clubs", False, "ID", sofascore_id=club_sofascore_id)["ID"]
             local_image_path = str(Path(*local_clubs_logo_folder, f"{club_id}.png"))
             with open(local_image_path, "wb") as file:
                 file.write(image)
