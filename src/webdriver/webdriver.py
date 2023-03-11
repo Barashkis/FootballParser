@@ -1,7 +1,6 @@
 from faker import Faker
 
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 def get_driver():
@@ -16,9 +15,6 @@ def get_driver():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument(f'user-agent={Faker().chrome()}')
 
-    capa = DesiredCapabilities.CHROME
-    capa["pageLoadStrategy"] = "none"
-
-    driver = webdriver.Chrome(options=options, desired_capabilities=capa)
+    driver = webdriver.Chrome(options=options)
 
     return driver
